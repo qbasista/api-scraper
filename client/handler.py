@@ -9,15 +9,14 @@ class ResponseHandler:
     def __call__(self, status: int, body: Union[Dict, List]):
         self.status = status
         self.body = body
-        handle_method = getattr(self, f"handle_{self.status}")
 
-        if handle_method:
-            return handle_method()
-        else:
+        try:
+            return getattr(self, f"handle_{self.status}")()
+        except AttributeError:
             return self.handle_rest()
 
     def handle_200(self):
-        raise NotImplementedError
+        return self.body
 
     def handle_400(self):
         raise Exception(f"Bad request: {self.status} - {self.body}")
@@ -29,7 +28,7 @@ class ResponseHandler:
         raise Exception(f"External Server Error")
 
     def handle_rest(self):
-        raise f"Unknown error: {self.status} - {self.body}"
+        raise Exception(f"Unknown error: {self.status} - {self.body}")
 
 
 class UsersResponseHandler(ResponseHandler):
