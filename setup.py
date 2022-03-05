@@ -7,5 +7,5 @@ setup(
     author="Jakub Wojciechowski",
     author_email="catchthemlive@gmail.com",
     packages=find_packages(include=["api-scraper", "api-scraper.*"]),
-    install_requires=["pytest", "requests", "black", "python-environ"],
+    install_requires=["pytest", "black", "python-environ", "aiohttp"],
 )
