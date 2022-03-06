@@ -1,4 +1,4 @@
-import os
+from datetime import datetime
 from typing import Any
 
 from models.album import UsersAlbum
@@ -35,22 +35,27 @@ class ResponseHandler:
 
 class UsersResponseHandler(ResponseHandler):
     def handle_200(self):
+        print(f'Time: {datetime.now()} Get users!')
         return [User(**user) for user in self.body]
 
 
 class UserAlbumsResponseHandler(ResponseHandler):
     def handle_200(self):
+        print(f'Time: {datetime.now()} Get user albums')
         return [UsersAlbum(**album) for album in self.body]
 
 
 class UserPhotosHandler(ResponseHandler):
     def handle_200(self):
+        print(f'Time: {datetime.now()} Get user photos')
         return [Photo(**photo) for photo in self.body]
 
 
 class DownloadPhotoHandler(ResponseHandler):
     async def handle_200(self):
+        print(f'Time: {datetime.now()} Saved photo')
         with open(self.kwargs.get("file_name"), "wb+") as fd:
             async for chunk in self.body.iter_chunked(1024):
                 fd.write(chunk)
+                print(f'Saved {fd.name}')
                 return fd.name
