@@ -4,6 +4,7 @@ from client.handler import (
     UsersResponseHandler,
     UserAlbumsResponseHandler,
     UserPhotosHandler,
+    DownloadPhotoHandler,
 )
 from core import settings
 from client.urls import ENDPOINTS
@@ -41,8 +42,14 @@ class Client:
             return handler(status=resp.status, body=await resp.json())
 
     async def download_photo(self, url):
+        handler = DownloadPhotoHandler()
+        file_name = f"{settings.ASSETS_DIR}/{url.split('/')[-1:][0]}"
         async with self._session.get(url) as resp:
-            return await resp.json()
+            return await handler(
+                status=resp.status,
+                body=resp.content,
+                file_name=file_name,
+            )
 
     def _reverse(self, path: str) -> str:
         return f"{self.api_url}{path}"

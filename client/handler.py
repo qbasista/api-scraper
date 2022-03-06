@@ -1,4 +1,5 @@
-from typing import Dict, List, Union
+import os
+from typing import Any
 
 from models.album import UsersAlbum
 from models.photo import Photo
@@ -6,9 +7,10 @@ from models.user import User
 
 
 class ResponseHandler:
-    def __call__(self, status: int, body: Union[Dict, List]):
+    def __call__(self, status: int, body: Any, **kwargs):
         self.status = status
         self.body = body
+        self.kwargs = kwargs
 
         try:
             return getattr(self, f"handle_{self.status}")()
@@ -44,3 +46,11 @@ class UserAlbumsResponseHandler(ResponseHandler):
 class UserPhotosHandler(ResponseHandler):
     def handle_200(self):
         return [Photo(**photo) for photo in self.body]
+
+
+class DownloadPhotoHandler(ResponseHandler):
+    async def handle_200(self):
+        with open(self.kwargs.get("file_name"), "wb+") as fd:
+            async for chunk in self.body.iter_chunked(1024):
+                fd.write(chunk)
+                return fd.name
