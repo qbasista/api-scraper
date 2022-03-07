@@ -41,7 +41,9 @@ class Client:
         async with self._session.get(self._reverse(ENDPOINTS.USERS)) as resp:
             return handler(status=resp.status, body=await resp.json())
 
-    async def get_user_albums(self, id) -> Optional[Union[list[UsersAlbum], BaseException]]:
+    async def get_user_albums(
+        self, id
+    ) -> Optional[Union[list[UsersAlbum], BaseException]]:
         print(f"Started get albums {id} user")
         handler = UserAlbumsResponseHandler()
         async with self._session.get(
