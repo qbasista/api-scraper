@@ -20,7 +20,6 @@ class CSVParser:
     def parse_photos_to_csv(self, photos: [Photo]) -> None:
         self._prepare_data_and_save(file_name="photos.csv", data=photos)
 
-    @staticmethod
     def _prepare_data_and_save(
         self, file_name: str, data: [any], sort_key: str = "id"
     ) -> None:
