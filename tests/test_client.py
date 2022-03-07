@@ -1,6 +1,5 @@
 import pytest
 
-from client.client import Client
 from client.handler import (
     ResponseHandler,
     UsersResponseHandler,
@@ -13,17 +12,6 @@ from models.user import User
 from tests.mocks.album_mock import users_album
 from tests.mocks.photo_mock import photo
 from tests.mocks.user_mock import user
-
-
-# @pytest.mark.asyncio
-# class TestClient:
-#     def setup(self):
-#         self.client = Client()
-#
-#     async def test_get_users(self):
-#         async with self.client as client:
-#             resp = await client.get_users()
-#             assert resp == ""
 
 
 class TestResponseHandler:

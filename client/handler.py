@@ -34,28 +34,28 @@ class ResponseHandler:
 
 
 class UsersResponseHandler(ResponseHandler):
-    def handle_200(self):
-        print(f'Time: {datetime.now()} Get users!')
+    def handle_200(self) -> [User]:
+        print(f"Time: {datetime.now()} Get users!")
         return [User(**user) for user in self.body]
 
 
 class UserAlbumsResponseHandler(ResponseHandler):
-    def handle_200(self):
-        print(f'Time: {datetime.now()} Get user albums')
+    def handle_200(self) -> [UsersAlbum]:
+        print(f"Time: {datetime.now()} Get user albums")
         return [UsersAlbum(**album) for album in self.body]
 
 
 class UserPhotosHandler(ResponseHandler):
-    def handle_200(self):
-        print(f'Time: {datetime.now()} Get user photos')
+    def handle_200(self) -> [Photo]:
+        print(f"Time: {datetime.now()} Get user photos")
         return [Photo(**photo) for photo in self.body]
 
 
 class DownloadPhotoHandler(ResponseHandler):
-    async def handle_200(self):
-        print(f'Time: {datetime.now()} Saved photo')
+    async def handle_200(self) -> str:
+        print(f"Time: {datetime.now()} Saved photo")
         with open(self.kwargs.get("file_name"), "wb+") as fd:
-            async for chunk in self.body.iter_chunked(1024):
+            async for chunk in self.body.iter_chunked(2048):
                 fd.write(chunk)
-                print(f'Saved {fd.name}')
+                print(f"Saved {fd.name}")
                 return fd.name

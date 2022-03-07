@@ -1,17 +1,21 @@
+from typing import Optional
+
+
 class Photo:
     id: int
     album_id: int
     title: str
     url: str
     thumbnail_url: str
-    file_path: str = None
+    file_path: Optional[str]
 
     def __init__(self, **kwargs):
         self.id = kwargs.get("id")
         self.album_id = kwargs.get("albumId")
         self.title = kwargs.get("title")
         self.url = kwargs.get("url")
-        self.thumbnail_url = kwargs.get("thumbnail_url")
+        self.thumbnail_url = kwargs.get("thumbnailUrl")
+        self.file_path = None
 
     def __repr__(self):
         return f"{self.id}. album: {self.album_id} - {self.title}"
@@ -23,3 +27,10 @@ class Photo:
 
     def set_file_path(self, file_path):
         self.file_path = file_path
+
+    def to_flat_dict(self):
+        flat = {**self.__dict__}
+        flat["thumbnailUrl"] = flat.pop("thumbnail_url")
+        flat["albumId"] = flat.pop("album_id")
+        flat["filePath"] = flat.pop("file_path")
+        return flat

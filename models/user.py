@@ -1,4 +1,6 @@
-from typing import Optional
+from typing import Optional, Dict
+
+from models.utils import add_prefix_to_keys
 
 
 class Geo:
@@ -8,6 +10,12 @@ class Geo:
     def __init__(self, **kwargs):
         self.lat = kwargs.get("lat")
         self.lng = kwargs.get("lng")
+
+    def to_flat_dict(self, prefix=None):
+        flat = {**self.__dict__}
+        if prefix:
+            return add_prefix_to_keys(data=flat, prefix=prefix)
+        return flat
 
 
 class Address:
@@ -19,10 +27,18 @@ class Address:
 
     def __init__(self, **kwargs):
         self.street = kwargs.get("street")
-        self.suite = kwargs.get("suit")
+        self.suite = kwargs.get("suite")
         self.city = kwargs.get("city")
         self.zipcode = kwargs.get("zipcode")
         self.geo = Geo(**kwargs.get("geo"))
+
+    def to_flat_dict(self, prefix: str = None) -> Dict:
+        flat = {**self.__dict__}
+        geo = flat.pop("geo")
+        flat = {**flat, **geo.to_flat_dict(prefix="geo")}
+        if prefix:
+            return add_prefix_to_keys(data=flat, prefix=prefix)
+        return flat
 
 
 class Company:
@@ -34,6 +50,13 @@ class Company:
         self.name = kwargs.get("name")
         self.catch_phrase = kwargs.get("catchPhrase")
         self.bs = kwargs.get("bs")
+
+    def to_flat_dict(self, prefix: str = None) -> Dict:
+        flat = {**self.__dict__}
+        flat["catchPhrase"] = flat.pop("catch_phrase")
+        if prefix:
+            flat = add_prefix_to_keys(flat, prefix)
+        return flat
 
 
 class User:
@@ -58,3 +81,13 @@ class User:
 
     def __repr__(self):
         return f'{self.id}. {self.name} - "{self.username}"'
+
+    def to_flat_dict(self):
+        flat = {**self.__dict__}
+        company = flat.pop("company")
+        address = flat.pop("address")
+        return {
+            **flat,
+            **company.to_flat_dict(prefix="company"),
+            **address.to_flat_dict(prefix="address"),
+        }

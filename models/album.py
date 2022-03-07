@@ -12,7 +12,12 @@ class UsersAlbum(Album):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.userId = int(kwargs.get("userId"))
+        self.user_id = int(kwargs.get("userId"))
 
     def __repr__(self):
-        return f"{self.id}. {self.title} user_id: {self.userId}"
+        return f"{self.id}. {self.title} user_id: {self.user_id}"
+
+    def to_flat_dict(self):
+        flat = {**self.__dict__}
+        flat["userId"] = flat.pop("user_id")
+        return flat
