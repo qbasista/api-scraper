@@ -30,5 +30,8 @@ class Scraper:
     async def get_and_save_photos(self, users: [User]):
         photos = []
         for user in users:
-            photos = [*photos, *(await self.client.get_and_download_user_photos(user.id))]
+            photos = [
+                *photos,
+                *(await self.client.get_and_download_user_photos(user.id)),
+            ]
         self.parser.parse_photos_to_csv(photos)

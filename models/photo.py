@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, Union
 
 
 class Photo:
@@ -20,7 +20,7 @@ class Photo:
     def __repr__(self):
         return f"{self.id}. album: {self.album_id} - {self.title}"
 
-    def get_file_path(self) -> Optional[FileNotFoundError, str]:
+    def get_file_path(self) -> Optional[Union[FileNotFoundError, str]]:
         if not self.file_path:
             raise FileNotFoundError("File wasn't save locally")
         return self.file_path
