@@ -82,7 +82,7 @@ class User:
     def __repr__(self):
         return f'{self.id}. {self.name} - "{self.username}"'
 
-    def to_flat_dict(self):
+    def to_flat_dict(self) -> Dict:
         flat = {**self.__dict__}
         company = flat.pop("company")
         address = flat.pop("address")

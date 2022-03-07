@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 class Album:
     id: int
     title: str
@@ -17,7 +20,7 @@ class UsersAlbum(Album):
     def __repr__(self):
         return f"{self.id}. {self.title} user_id: {self.user_id}"
 
-    def to_flat_dict(self):
+    def to_flat_dict(self) -> Dict:
         flat = {**self.__dict__}
         flat["userId"] = flat.pop("user_id")
         return flat

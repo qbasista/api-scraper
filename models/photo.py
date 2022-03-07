@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict
 
 
 class Photo:
@@ -20,15 +20,15 @@ class Photo:
     def __repr__(self):
         return f"{self.id}. album: {self.album_id} - {self.title}"
 
-    def get_file_path(self):
+    def get_file_path(self) -> Optional[FileNotFoundError, str]:
         if not self.file_path:
             raise FileNotFoundError("File wasn't save locally")
         return self.file_path
 
-    def set_file_path(self, file_path):
+    def set_file_path(self, file_path) -> None:
         self.file_path = file_path
 
-    def to_flat_dict(self):
+    def to_flat_dict(self) -> Dict:
         flat = {**self.__dict__}
         flat["thumbnailUrl"] = flat.pop("thumbnail_url")
         flat["albumId"] = flat.pop("album_id")

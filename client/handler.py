@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict
 
 from models.album import UsersAlbum
 from models.photo import Photo
@@ -8,28 +8,28 @@ from models.user import User
 
 class ResponseHandler:
     def __call__(self, status: int, body: Any, **kwargs):
-        self.status = status
-        self.body = body
-        self.kwargs = kwargs
+        self.status: int = status
+        self.body: Any = body
+        self.kwargs: Dict = kwargs
 
         try:
             return getattr(self, f"handle_{self.status}")()
         except AttributeError:
             return self.handle_rest()
 
-    def handle_200(self):
+    def handle_200(self) -> Any:
         return self.body
 
-    def handle_400(self):
+    def handle_400(self) -> [Exception]:
         raise Exception(f"Bad request: {self.status} - {self.body}")
 
-    def handle_404(self):
+    def handle_404(self) -> [Exception]:
         raise Exception(f"Not found: {self.status} - {self.body}")
 
-    def handle_500(self):
+    def handle_500(self) -> [Exception]:
         raise Exception(f"External Server Error")
 
-    def handle_rest(self):
+    def handle_rest(self) -> [Exception]:
         raise Exception(f"Unknown error: {self.status} - {self.body}")
 
 
