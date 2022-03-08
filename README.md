@@ -6,7 +6,7 @@ python-environ >= 0.4.54
 aiohttp >= 3.8.1
 
 ### DESCRIPTION
-Python script to get data from jsonplaceholder.typicode.com api and save data to csv.
+Python scripts to get data from `jsonplaceholder.typicode.com` api and save data to csv.
 
 ### QUICK START
 
