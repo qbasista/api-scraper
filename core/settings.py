@@ -9,6 +9,6 @@ environ.Env.read_env()
 
 API_URL = env("API_URL")
 IO_REQUEST_LIMIT = env("IO_REQUEST_LIMIT")
-CLIENT_TIMEOUT = env("CLIENT_TIMEOUT")
+CLIENT_TIMEOUT = 10000
 
 ASSETS_DIR = "assets"

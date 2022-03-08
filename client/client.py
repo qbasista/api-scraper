@@ -39,32 +39,39 @@ class Client:
         async with self._session.get(self._reverse(ENDPOINTS.USERS)) as resp:
             return UsersResponseHandler()(status=resp.status, body=await resp.json())
 
-    async def get_user_albums(self, id: int) -> Optional[Union[list[UsersAlbum], BaseException]]:
-        print(f"Started get albums {id} user")
+    async def get_user_albums(
+        self, id: int
+    ) -> Optional[Union[list[UsersAlbum], BaseException]]:
+        print(f"Started get users albums")
         async with self._session.get(
             self._reverse(ENDPOINTS.USER_ALBUMS.format(id))
         ) as resp:
-            return UserAlbumsResponseHandler()(status=resp.status, body=await resp.json())
+            return UserAlbumsResponseHandler()(
+                status=resp.status, body=await resp.json()
+            )
 
     async def get_and_download_user_photos(
         self, id: int
     ) -> Optional[Union[list[Photo], BaseException]]:
 
-        print(f"Started get and download photos {id} user")
+        print(f"Started get and download user {id} photos")
         photo_response = await self.get_user_photos(id)
 
         if isinstance(photo_response[0], Photo):
             await self.download_photos(photo_response)
         return photo_response
 
-    async def get_user_photos(self, id: int) -> Optional[Union[list[Photo], BaseException]]:
+    async def get_user_photos(
+        self, id: int
+    ) -> Optional[Union[list[Photo], BaseException]]:
+        print(f"Started get users {id} photos")
         async with self._session.get(
             self._reverse(ENDPOINTS.USER_PHOTOS.format(id))
         ) as resp:
             return UserPhotosHandler()(status=resp.status, body=await resp.json())
 
     async def download_photos(self, photos: [Photo]) -> None:
-        print(f"Started download photos {id} user")
+
         paths = await asyncio.gather(
             *[self.download_photo(photo.url) for photo in photos]
         )
@@ -73,7 +80,7 @@ class Client:
     async def download_photo(self, url) -> [str]:
         file_name = f"{settings.ASSETS_DIR}/photos/{url.split('/')[-1:][0]}"
         if Path(file_name).is_file():
-            print("file exists")
+            print(f"file {file_name} exists")
             return file_name
         else:
             async with self._session.get(url) as resp:
