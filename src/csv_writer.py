@@ -1,7 +1,8 @@
 import csv
+import os
 from typing import Dict
 
-import settings
+from src import settings
 from src.models.album import UsersAlbum
 from src.models.photo import Photo
 from src.models.user import User
@@ -10,6 +11,7 @@ from src.models.user import User
 class CSVWriter:
     def __init__(self):
         self.dir_path = f"{getattr(settings, 'ASSETS_DIR', '')}"
+        self._create_dir_if_not_exists()
 
     def parse_albums_to_csv(self, albums: [UsersAlbum]) -> None:
         self._save_to_csv(file_name="albums.csv", **self._prepare_data(data=albums))

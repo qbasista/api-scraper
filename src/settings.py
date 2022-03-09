@@ -1,7 +1,7 @@
 import environ
 
 env = environ.Env(
-    API_URL=(str, "https://localhost:8000"),
+    API_URL=(str, "https://jsonplaceholder.typicode.com"),
     IO_REQUEST_LIMIT=(int, 100),
     CLIENT_TIMEOUT=(int, 1000),
 )

@@ -6,7 +6,7 @@ setup(
     description="Python script to scrap data from jsonplaceholder.typicode.com api and save to csv",
     author="Jakub Wojciechowski",
     author_email="catchthemlive@gmail.com",
-    packages=find_packages(include=["api-scraper", "api-scraper.*"]),
+    packages=find_packages(include=['src', 'src.*']),
     install_requires=[
         "pytest==7.0.1",
         "black==22.1.0",

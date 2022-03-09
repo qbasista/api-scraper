@@ -5,7 +5,7 @@ import aiohttp
 import backoff
 from aiohttp import ClientResponseError
 
-import settings
+from src import settings
 from src.models.album import UsersAlbum
 from src.models.photo import Photo
 
