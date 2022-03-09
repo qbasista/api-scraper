@@ -1,13 +1,13 @@
 import csv
 from typing import Dict
 
-from core import settings
-from models.album import UsersAlbum
-from models.photo import Photo
-from models.user import User
+import settings
+from src.models.album import UsersAlbum
+from src.models.photo import Photo
+from src.models.user import User
 
 
-class CSVParser:
+class CSVWriter:
     def __init__(self):
         self.dir_path = f"{getattr(settings, 'ASSETS_DIR', '')}"
 

@@ -1,6 +1,6 @@
 from typing import Optional, Dict
 
-from models.utils import add_prefix_to_keys
+from src.utils import add_prefix_to_keys
 
 
 class Geo:

@@ -1,11 +1,11 @@
-from models.photo import Photo
-from parsers.parser import CSVParser
-from tests.mocks.photo_mock import photo, photo_other
+from src.models.photo import Photo
+from src.csv_writer import CSVWriter
+from tests.mocks import photo, photo_other
 
 
 class TestCSVParser:
     def setup(self):
-        self.parser = CSVParser()
+        self.parser = CSVWriter()
 
     def test_sort(self):
         data = [
@@ -30,21 +30,16 @@ class TestCSVParser:
 
     def test_prepare_data_and_save(self):
         obj_one = Photo(**photo)
-        obj_one.set_file_path('path')
+        obj_one.set_file_path("path")
         obj_two = Photo(**photo_other)
-        obj_two.set_file_path('path')
+        obj_two.set_file_path("path")
 
         data = [obj_two, obj_one, obj_two]
 
         assert self.parser._prepare_data(data=data) == {
-            "fieldnames": ['id', 'title', 'url', 'thumbnailUrl', 'albumId', 'filePath'],
+            "fieldnames": ["id", "title", "url", "thumbnailUrl", "albumId", "filePath"],
             "data": [
-                {
-                    **photo,
-                    "filePath": "path"
-                }, {
-                    **photo_other,
-                    "filePath": "path"
-                }
-            ]
+                {**photo, "filePath": "path"},
+                {**photo_other, "filePath": "path"},
+            ],
         }

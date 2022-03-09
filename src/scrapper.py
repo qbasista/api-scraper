@@ -1,13 +1,13 @@
 import asyncio
-from client.client import Client
-from models.user import User
-from parsers.parser import CSVParser
+from src.client.client import Client
+from src.models.user import User
+from src.csv_writer import CSVWriter
 
 
 class Scraper:
     def __init__(self):
         self.client = Client()
-        self.parser = CSVParser()
+        self.parser = CSVWriter()
 
     async def run(self):
         async with self.client:

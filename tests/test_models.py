@@ -1,9 +1,7 @@
-from models.album import UsersAlbum
-from models.photo import Photo
-from models.user import User
-from tests.mocks.album_mock import users_album
-from tests.mocks.photo_mock import photo
-from tests.mocks.user_mock import user
+from src.models.album import UsersAlbum
+from src.models.photo import Photo
+from src.models.user import User
+from tests.mocks import users_album, user, photo
 
 
 class TestUserModel:

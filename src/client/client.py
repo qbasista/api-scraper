@@ -1,20 +1,25 @@
 import asyncio
 from pathlib import Path
-from typing import Optional, Union
 
 import aiohttp
 
-from client.handler import (
+from src.client.handler import (
     UsersResponseHandler,
     UserAlbumsResponseHandler,
     UserPhotosHandler,
     DownloadPhotoHandler,
 )
-from core import settings
-from client.urls import ENDPOINTS
-from models.album import UsersAlbum
-from models.photo import Photo
-from models.user import User
+import settings
+from src.models.photo import Photo
+
+from dataclasses import dataclass
+
+
+@dataclass
+class ENDPOINTS:
+    USERS: str = "/users"
+    USER_ALBUMS: str = "/users/{}/albums/"
+    USER_PHOTOS: str = "/users/{}/photos/"
 
 
 class Client:
@@ -34,14 +39,14 @@ class Client:
         await self._session.close()
         self._session = None
 
-    async def get_users(self) -> Optional[Union[list[User], BaseException]]:
+    async def get_users(self):
         print("Started get users")
         async with self._session.get(self._reverse(ENDPOINTS.USERS)) as resp:
             return UsersResponseHandler()(status=resp.status, body=await resp.json())
 
     async def get_user_albums(
         self, id: int
-    ) -> Optional[Union[list[UsersAlbum], BaseException]]:
+    ):
         print(f"Started get users albums")
         async with self._session.get(
             self._reverse(ENDPOINTS.USER_ALBUMS.format(id))
@@ -52,7 +57,7 @@ class Client:
 
     async def get_and_download_user_photos(
         self, id: int
-    ) -> Optional[Union[list[Photo], BaseException]]:
+    ):
 
         print(f"Started get and download user {id} photos")
         photo_response = await self.get_user_photos(id)
@@ -63,7 +68,7 @@ class Client:
 
     async def get_user_photos(
         self, id: int
-    ) -> Optional[Union[list[Photo], BaseException]]:
+    ):
         print(f"Started get users {id} photos")
         async with self._session.get(
             self._reverse(ENDPOINTS.USER_PHOTOS.format(id))

@@ -11,6 +11,11 @@ setup(
         "pytest==7.0.1",
         "black==22.1.0",
         "python-environ==0.4.54",
-        "aiohttp==3.8.1"
+        "aiohttp==3.8.1",
     ],
+    entry_points={
+        'console_scripts': [
+            'scraper=src:main',
+        ]
+    }
 )
