@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -74,6 +75,7 @@ class Client:
             return file_name
         else:
             async with self._session.get(url, raise_for_status=True) as resp:
+                os.makedirs(os.path.dirname(file_name), exist_ok=True)
                 with open(file_name, "wb+") as fd:
                     async for chunk in resp.content.iter_chunked(2048):
                         fd.write(chunk)

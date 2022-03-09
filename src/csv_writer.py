@@ -11,7 +11,6 @@ from src.models.user import User
 class CSVWriter:
     def __init__(self):
         self.dir_path = f"{getattr(settings, 'ASSETS_DIR', '')}"
-        self._create_dir_if_not_exists()
 
     def parse_albums_to_csv(self, albums: [UsersAlbum]) -> None:
         self._save_to_csv(file_name="albums.csv", **self._prepare_data(data=albums))
@@ -37,7 +36,9 @@ class CSVWriter:
         return [dict(t) for t in {tuple(d.items()) for d in data}]
 
     def _save_to_csv(self, file_name: str, fieldnames: [str], data: [Dict]) -> None:
-        with open(f"{self.dir_path}/{file_name}", "w+") as f:
+        path = f"{self.dir_path}/{file_name}"
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             [writer.writerow(item) for item in data]
