@@ -80,6 +80,5 @@ class Client:
                         print(f"Saved {fd.name}")
                         return fd.name
 
-
     def _reverse(self, path: str) -> str:
         return f"{self.API_URL}{path}"
