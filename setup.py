@@ -12,10 +12,11 @@ setup(
         "black==22.1.0",
         "python-environ==0.4.54",
         "aiohttp==3.8.1",
+        "backoff==1.11.1",
     ],
     entry_points={
-        'console_scripts': [
-            'scraper=src:main',
+        "console_scripts": [
+            "scraper=src:main",
         ]
-    }
+    },
 )

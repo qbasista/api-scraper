@@ -1,5 +1,6 @@
 import asyncio
-from src.client.client import Client
+from src.client import Client
+from src.models.photo import Photo
 from src.models.user import User
 from src.csv_writer import CSVWriter
 
@@ -32,6 +33,22 @@ class Scraper:
         for user in users:
             photos = [
                 *photos,
-                *(await self.client.get_and_download_user_photos(user.id)),
+                *(await self._get_and_download_user_photos(user.id)),
             ]
         self.parser.parse_photos_to_csv(photos)
+
+    async def _get_and_download_user_photos(self, id: int):
+
+        print(f"Started get and download user {id} photos")
+        photo_response = await self.client.get_user_photos(id)
+
+        if isinstance(photo_response[0], Photo):
+            await self._download_photos(photo_response)
+        return photo_response
+
+    async def _download_photos(self, photos: [Photo]) -> None:
+
+        paths = await asyncio.gather(
+            *[self.client.download_photo(photo.url) for photo in photos]
+        )
+        [photo.set_file_path(paths[i]) for i, photo in enumerate(photos)]

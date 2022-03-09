@@ -1,6 +1,6 @@
 import pytest
 
-from src.client.client import (
+from src.client import (
     UsersResponseHandler,
     UserAlbumsResponseHandler,
     UserPhotosHandler,
