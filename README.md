@@ -11,8 +11,8 @@ Python scripts to get data from `jsonplaceholder.typicode.com` api and save data
 ### QUICK START
 
 1. clone repo from `https://github.com/qbasista/api-scraper.git`
-2. go to root dir `cd api-scraper/`
-3. create environment (you can use pyenv or other python enviroment tool)
+2. open root dir `cd api-scraper/`
+3. create virtualenv (you can use pyenv or other python enviroment tool)
 4. install requirements: `pip install .`
 5. set .env file:
    1. copy from example: `cp .env .env.example`
