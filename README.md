@@ -15,7 +15,7 @@ Python scripts to get data from `jsonplaceholder.typicode.com` api and save data
 3. create virtualenv (you can use pyenv or other python enviroment tool)
 4. install requirements: `pip install .`
 5. set .env file:
-   1. copy from example: `cp .env .env.example`
+   1. copy from example: `cp .env.example .env`
    2. in .env you have default value for API_URL and IO_REQUEST_LIMIT
    3. to change api url change API_URL 
    4. to change limit of request per second change value for IO_REQUEST_LIMIT
